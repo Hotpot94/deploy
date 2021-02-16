@@ -1,4 +1,4 @@
-import Reeact, {useRef, useState} from 'react'
+import React, {useRef, useState} from 'react'
 import IdleTimer from 'react-idle-timer'
 import { auth } from '../firebase';
 import Modal from 'react-modal'
