@@ -79,7 +79,7 @@ function DocRescheduleUI() {
             email: appointment.PatientEmail,
             department: doct.Department
         };
-        let response = await fetch("http://localhost:5000/docReschedule", {
+        let response = await fetch("https://uowmyappointment.herokuapp.com/docReschedule", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json;charset=utf-8"

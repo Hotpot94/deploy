@@ -47,7 +47,7 @@ function CancelAppointmentUI() {
           user: appointment.Patient,
           email: appointment.PatientEmail
        };
-       let response = await fetch("http://localhost:5000/cancel", {
+       let response = await fetch("https://uowmyappointment.herokuapp.com/cancel", {
           method: "POST",
           headers: {
              "Content-Type": "application/json;charset=utf-8"

@@ -293,7 +293,7 @@ function ViewDoctorScheduleUI()
                         email: tempAppointment[b].PatientEmail,
                         department: doctor[a].Department
                      };
-                     let response = await fetch("http://localhost:5000/sendReminder", {
+                     let response = await fetch("https://uowmyappointment.herokuapp.com/sendReminder", {
                            method: "POST",
                            headers: {
                               "Content-Type": "application/json;charset=utf-8"

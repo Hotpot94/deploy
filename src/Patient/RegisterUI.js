@@ -115,7 +115,7 @@ function RegisterUI() {
             email: Email.toLowerCase(),
             user: FirstName + " " + LastName
          };
-         let response = await fetch("http://localhost:5000/createAcc", {
+         let response = await fetch("https://uowmyappointment.herokuapp.com/createAcc", {
             method: "POST",
             headers: {
                "Content-Type": "application/json;charset=utf-8"

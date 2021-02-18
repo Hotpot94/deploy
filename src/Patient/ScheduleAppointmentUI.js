@@ -99,7 +99,7 @@ function ScheduleAppointmentUI() {
                 email: currentUser.email,
                 department: docGP.Department
             };
-            let response = await fetch("http://localhost:5000/book", {
+            let response = await fetch("https://uowmyappointment.herokuapp.com/book", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json;charset=utf-8"
