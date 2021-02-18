@@ -4,7 +4,6 @@ const { google, outlook, office365, yahoo, ics } = require("calendar-link");
 
 const express = require("express");
 const router = express.Router();
-const path = require('path');
 const cors = require("cors");
 const normalizePort = port => parseInt(port, 10);
 const PORT = normalizePort(process.env.PORT || 5000)
@@ -15,13 +14,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/", router);
-app.use(express.static(path.join(__dirname, 'build')));
-
-
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
-
+app.listen(PORT, () => console.log("Server Running"));
 
 // setup email
 let transporter = nodemailer.createTransport({
@@ -40,7 +33,7 @@ transporter.verify((error) => {
   });
 
 // create email for book appointment
-app.post("/book", (req, res) => {
+router.post("/book", (req, res) => {
     const date = req.body.date;
     const doctor = req.body.doctor;
     const timeslot = req.body.timeslot;
@@ -108,7 +101,7 @@ app.post("/book", (req, res) => {
 });
 
 // create email for create account
-app.post("/createAcc", (req, res) => {
+router.post("/createAcc", (req, res) => {
     const user = req.body.user;
     const email = req.body.email;
     const mail = {
@@ -135,7 +128,7 @@ app.post("/createAcc", (req, res) => {
 });
 
 // create email for reschedule appointment
-app.post("/reschedule", (req, res) => {
+router.post("/reschedule", (req, res) => {
     const date = req.body.date;
     const doctor = req.body.doctor;
     const timeslot = req.body.timeslot;
@@ -204,7 +197,7 @@ app.post("/reschedule", (req, res) => {
 });
 
 // create email for cancel appointment
-app.post("/cancel", (req, res) => {
+router.post("/cancel", (req, res) => {
     const date = req.body.date;
     const doctor = req.body.doctor;
     const timeslot = req.body.timeslot;
@@ -234,7 +227,7 @@ app.post("/cancel", (req, res) => {
 });
 
 // create email for doctor reschedule appointment
-app.post("/docReschedule", (req, res) => {
+router.post("/docReschedule", (req, res) => {
     const date = req.body.date;
     const doctor = req.body.doctor;
     const timeslot = req.body.timeslot;
@@ -304,7 +297,7 @@ app.post("/docReschedule", (req, res) => {
 });
 
 // create email for reminder
-app.post("/sendReminder", (req, res) => {
+router.post("/sendReminder", (req, res) => {
     const date = req.body.date;
     const doctor = req.body.doctor;
     const timeslot = req.body.timeslot;
@@ -371,5 +364,3 @@ app.post("/sendReminder", (req, res) => {
         }
     });
 });
-
-app.listen(PORT, () => console.log("Server Running"));
