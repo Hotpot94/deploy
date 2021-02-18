@@ -40,7 +40,7 @@ transporter.verify((error) => {
   });
 
 // create email for book appointment
-router.post("/book", (req, res) => {
+app.post("/book", (req, res) => {
     const date = req.body.date;
     const doctor = req.body.doctor;
     const timeslot = req.body.timeslot;
@@ -108,7 +108,7 @@ router.post("/book", (req, res) => {
 });
 
 // create email for create account
-router.post("/createAcc", (req, res) => {
+app.post("/createAcc", (req, res) => {
     const user = req.body.user;
     const email = req.body.email;
     const mail = {
@@ -135,7 +135,7 @@ router.post("/createAcc", (req, res) => {
 });
 
 // create email for reschedule appointment
-router.post("/reschedule", (req, res) => {
+app.post("/reschedule", (req, res) => {
     const date = req.body.date;
     const doctor = req.body.doctor;
     const timeslot = req.body.timeslot;
@@ -204,7 +204,7 @@ router.post("/reschedule", (req, res) => {
 });
 
 // create email for cancel appointment
-router.post("/cancel", (req, res) => {
+app.post("/cancel", (req, res) => {
     const date = req.body.date;
     const doctor = req.body.doctor;
     const timeslot = req.body.timeslot;
@@ -234,7 +234,7 @@ router.post("/cancel", (req, res) => {
 });
 
 // create email for doctor reschedule appointment
-router.post("/docReschedule", (req, res) => {
+app.post("/docReschedule", (req, res) => {
     const date = req.body.date;
     const doctor = req.body.doctor;
     const timeslot = req.body.timeslot;
@@ -304,7 +304,7 @@ router.post("/docReschedule", (req, res) => {
 });
 
 // create email for reminder
-router.post("/sendReminder", (req, res) => {
+app.post("/sendReminder", (req, res) => {
     const date = req.body.date;
     const doctor = req.body.doctor;
     const timeslot = req.body.timeslot;
