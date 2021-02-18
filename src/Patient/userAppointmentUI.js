@@ -7,6 +7,21 @@ import './UserAppointmentUI.css';
 import moment from 'moment';
 import IdleTimerContainer from '../util/IdleTimerContainer';
 
+const convertTime12to24 = (time12h) => {
+  const [time, modifier] = time12h.split(' ');
+
+  let [hours, minutes] = time.split(':');
+
+  if (hours === '12') {
+    hours = '00';
+  }
+
+  if (modifier === 'PM') {
+    hours = parseInt(hours, 10) + 12;
+  }
+
+  return `${hours}:${minutes}:00`;
+}
 
 function UserAppointmentUI() {
 
@@ -25,7 +40,7 @@ function UserAppointmentUI() {
 
   React.useEffect(()=>{
     const fetchData = async () =>{
-       firestore.collection("Users")
+       firestore.collection("Users").limit(1)
        .where("Email", "==", String(currentUser.email))
        .get()
        .then(function(data){
@@ -50,21 +65,17 @@ function UserAppointmentUI() {
     fetchData();
  }, [])
 
- const filteredAppointments = appointments.filter(app =>{
-    if(app.PatientEmail === currentUser.email)
-        return app;
- })
+ const filteredAppointments = appointments.filter(app => app.PatientEmail === currentUser.email)
+                                          .sort((a,b) => Date.parse(a.Date) > Date.parse(b.Date) ? 1 : -1)
 
+ //filter upcoming
  const filterUpcoming = filteredAppointments.filter(app =>{
-    let today = moment(date).format('MMMM Do YYYY');
-    let appDate = moment(app.Date).format('MMMM Do YYYY');
-    return appDate >= today;
- })
+  return new Date(app.Date+" "+ convertTime12to24(app.Timeslot.substr(11,app.Timeslot.length))) >= new Date();
+})
 
+ //filter past
  const filterPast = filteredAppointments.filter(app =>{
-  let today = moment(date).format('MMMM Do YYYY');
-  let appDate = moment(app.Date).format('MMMM Do YYYY');
-  return appDate < today;
+  return new Date(app.Date+" "+ convertTime12to24(app.Timeslot.substr(11,app.Timeslot.length))) < new Date();
 })
 
   return (
@@ -135,10 +146,14 @@ function UserAppointmentUI() {
               <Card.Body>
                 <Card.Title>Doctor : {app.Doctor}</Card.Title>
                 <Card.Text>Booked Time : {app.Timeslot}</Card.Text>
-                <Link to={{
+                {app.DocCreated ? (<Link to={{
                         pathname: 'bookAppointment/', 
                         state:{doctor: doctor}
-            }}><Button variant="primary">Book Again</Button></Link>
+            }}><Button variant="primary">Book Follow-Up</Button></Link>):(<Link to={{
+              pathname: 'bookAppointment/', 
+              state:{doctor: doctor}
+  }}><Button variant="primary">Book Again</Button></Link>)}
+                
             </Card.Body>
           </Card>
           )}

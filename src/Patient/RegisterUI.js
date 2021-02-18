@@ -5,6 +5,9 @@ import { auth, firestore } from '../firebase';
 import moment from 'moment';
 import PasswordStrengthIndicator from '../components/PasswordStrengthIndicator';
 import {useAuth} from '../util/Auth'
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
+import IdleTimerContainer from '../util/IdleTimerContainer'
 
 function RegisterUI() {
 
@@ -50,6 +53,18 @@ function RegisterUI() {
       specialChar: null
    });
 
+   const submitCreateAlert = () => {
+      confirmAlert({
+        title: 'Congratulations!',
+        message: 'Your account has been created successfully.',
+        buttons: [
+          {
+            label: 'OK',
+          },
+        ]
+      });
+    };
+
    const onChangePassword = password =>
    {
       setPassword(password);
@@ -81,9 +96,6 @@ function RegisterUI() {
          setLoading(true);
          await signup(Email, Password) 
 
-         
-              
-
          firestore.collection('Users').add({
             FirstName: FirstName,
             LastName: LastName,
@@ -95,7 +107,7 @@ function RegisterUI() {
             Role: "Patient",
          })
          .then(() => {
-            alert("Account Registered Successfully!");
+            submitCreateAlert()
          })
 
          // send email to user
@@ -137,6 +149,7 @@ function RegisterUI() {
             <Container className="d-flex align-items-center justify-content-center"
       style={{ minHeight: "100vh"}}>
           <div className="w-100" style={{maxWidth: "500px"}}>
+          <IdleTimerContainer></IdleTimerContainer>
             <Card>
              <Card.Body>
                  <h2 className= "text-center mb-4">Create your Account</h2>

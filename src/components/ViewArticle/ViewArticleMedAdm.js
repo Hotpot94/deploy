@@ -64,7 +64,7 @@ class ViewArticle extends Component {
     deleteArticle(aid){
         var desertRef = removeImageFromStorage.refFromURL(this.state.article.featureImage)
         firestore.collection('HealthArticles').doc(aid).delete().then(()=>{
-            this.props.history.push({pathname: '/MedDoc/ViewHealthArticle'})
+            this.props.history.push({pathname: '/MedAdm/ViewHealthArticle'})
             alert("Article has been deleted successfully!")
         }).catch(err => alert(err))
         desertRef.delete().then(function(){

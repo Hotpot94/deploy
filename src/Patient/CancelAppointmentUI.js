@@ -46,7 +46,7 @@ function CancelAppointmentUI() {
             user: Appointment.Patient,
             email: Appointment.PatientEmail
          };
-         let response = await fetch("https://uowmyappointment.herokuapp.com/cancel", {
+         let response = await fetch("http://localhost:5000/cancel", {
             method: "POST",
             headers: {
                "Content-Type": "application/json;charset=utf-8"
@@ -76,7 +76,6 @@ function CancelAppointmentUI() {
                  <Form onSubmit={handleSubmit} className="my-4">
                  <Form.Group id = "date">
                         <Form.Label className="my-2">Appointment Date</Form.Label>
-                        {error && <Alert variant="danger">{error}</Alert>}
                         <Form.Control 
                         disabled = {true}
                         defaultValue={Appointment.Date}

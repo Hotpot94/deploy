@@ -16,6 +16,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/", router);
 app.listen(PORT, () => console.log("Server Running"));
+
 app.use(express.static(path.join(__dirname, 'build')));
 
 
@@ -40,7 +41,7 @@ transporter.verify((error) => {
   });
 
 // create email for book appointment
-app.post("/book", (req, res) => {
+router.post("/book", (req, res) => {
     const date = req.body.date;
     const doctor = req.body.doctor;
     const timeslot = req.body.timeslot;

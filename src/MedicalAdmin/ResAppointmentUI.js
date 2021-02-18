@@ -30,7 +30,7 @@ function ResAppointmentUI() {
               setAppointments(data.docs.map(doc => ({ ...doc.data(), id: doc.id})));
            }); 
 
-           firestore.collection("Users")
+           firestore.collection("Users").limit(1)
            .where("Email", "==", String(currentUser.email))
            .get()
            .then(function(data){
@@ -38,7 +38,7 @@ function ResAppointmentUI() {
                 setUsers(data.docs.map(doc => ({ ...doc.data(), id: doc.id})));
             });
 
-            firestore.collection("Medical Doctors")
+            firestore.collection("Medical Doctors").limit(1)
             .where("Email", "==", String(appointment.DocEmail))
             .get()
             .then(function(data){
@@ -76,7 +76,7 @@ function ResAppointmentUI() {
           email: currentUser.email,
           department: doct.Department
       };
-      let response = await fetch("http://localhost:5000/reschedule", {
+      let response = await fetch("http://localhost:5000/docReschedule", {
           method: "POST",
           headers: {
               "Content-Type": "application/json;charset=utf-8"
@@ -133,7 +133,7 @@ function ResAppointmentUI() {
      const confirmReScheduleAlert = () => {
         confirmAlert({
           title: 'Congratulations!',
-          message: 'Your appointment has been rescheduled successfully.',
+          message: 'The appointment has been rescheduled successfully.',
           buttons: [
             {
               label: 'OK',
@@ -149,8 +149,8 @@ function ResAppointmentUI() {
                 <Container className="d-flex align-items-center justify-content-center">
                 <div className="w-100" style={{maxWidth: "400px"}}>
                 <Card>
-                    <Card.Title>Reschedule Your Appointment</Card.Title>
-                    <Card.Title>Your Doctor</Card.Title>
+                    <Card.Title>Reschedule Appointment</Card.Title>
+                    <Card.Title>Doctor</Card.Title>
                     <Card.Img variant="top" src={doct.Image} />
                     <Card.Body>
                         <Card.Title>{doct.Name}</Card.Title>
