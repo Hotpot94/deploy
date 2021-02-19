@@ -5,10 +5,11 @@ import { useAuth } from "../util/Auth"
 
 function MAHomepageUI() {
 
+    // react hooks
     const { currentUser } = useAuth();
-
     const [medAdmin, setMedAdmin] = useState([]); 
-    
+
+    //upon logging in user data is fecthed in React.useEffect and displayed in return 
     React.useEffect(()=>{
         const fetchData = async () =>{
            firestore.collection("Medical Administrator").limit(1)
@@ -52,6 +53,7 @@ function MAHomepageUI() {
                                     <div className="card-body">
                                         <h5 className="card-title">Schedule</h5>
                                         <p className="card-text">You can view and edit the schedule here</p>
+                                        <br/>
                                         <a onClick={() => {window.location.href="/MedAdm/Schedule"}} className="btn btn-primary">View / Edit Schedule</a>
                                     </div>
                                 </div>

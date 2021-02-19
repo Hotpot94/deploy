@@ -20,8 +20,10 @@ function ResAppointmentUI() {
     const [doctor, setDoctor] = useState([]);               // store doctor data
     const { currentUser } = useAuth();
     const history = useHistory();
+    let URI = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_DEV_URI : process.env.REACT_APP_PROD_URI;
 
     React.useEffect(()=>{
+        //data is fetched on render
         const fetchData = async () =>{
            firestore.collection("Appointment")
            .get()
@@ -49,7 +51,8 @@ function ResAppointmentUI() {
         fetchData();
      }, [])
 
-      //handle submit
+      //handle submit function updates reschedule appointment data to firebase 
+      // and sends email to patient
    const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -76,7 +79,7 @@ function ResAppointmentUI() {
           email: currentUser.email,
           department: doct.Department
       };
-      let response = await fetch("https://uowmyappointment.herokuapp.com/docReschedule", {
+      let response = await fetch(URI+"/docReschedule", {
           method: "POST",
           headers: {
               "Content-Type": "application/json;charset=utf-8"

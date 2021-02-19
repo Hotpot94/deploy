@@ -9,6 +9,7 @@ import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 function CancelAppointmentUI() {
+   //react hooks
     const {state} = useLocation();              // access appointment passed from link router
     const {appointment} = state;                // save appointment data from state
     const [error, setError] = useState("");     // store error message
@@ -16,6 +17,9 @@ function CancelAppointmentUI() {
     const history = useHistory();
     const [patient, setPatient] = useState([]);
 
+    let URI = process.env.NODE_ENV === 'development' ? process.env.REACT_APP_DEV_URI : process.env.REACT_APP_PROD_URI;
+
+    // alert message
     const cancelAppointmentAlert = () => {
         confirmAlert({
           title: 'Congratulations!',
@@ -34,6 +38,7 @@ function CancelAppointmentUI() {
     setError("");
 
     try{
+       //delete document from firebase
        await firestore.collection("Appointment").doc(appointment.id).delete()
        .then(() => {
           cancelAppointmentAlert()
@@ -47,7 +52,7 @@ function CancelAppointmentUI() {
           user: appointment.Patient,
           email: appointment.PatientEmail
        };
-       let response = await fetch("https://uowmyappointment.herokuapp.com/cancel", {
+       let response = await fetch(URI+"/cancel", {
           method: "POST",
           headers: {
              "Content-Type": "application/json;charset=utf-8"

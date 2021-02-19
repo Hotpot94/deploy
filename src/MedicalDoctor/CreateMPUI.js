@@ -10,6 +10,7 @@ import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import IdleTimerContainer from '../util/IdleTimerContainer';
 
 function CreateMPUI() {
+    //react hooks
     const {state} = useLocation();
     const {appointment} = state;
     //usestates
@@ -26,6 +27,7 @@ function CreateMPUI() {
     const [medTests, setMedTests] = useState([]);
 
     React.useEffect(()=>{
+        // fetch this data on render
         const fetchData = async () =>{
             firestore.collection("Medical Documents")
             .where("appointmentID","==",appointment.id)
@@ -47,6 +49,7 @@ function CreateMPUI() {
 
     const doc = {...doctor[0]};
 
+    //alert message
     const MDAlert = () => {
         confirmAlert({
           title: 'Congratulations!',
@@ -60,6 +63,8 @@ function CreateMPUI() {
       };
 
 
+      // on submit this function checks for conditions of receipt to automate
+      // the prices then saves those data to firebase
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
